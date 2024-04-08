@@ -5,6 +5,8 @@ import jwt from "@elysiajs/jwt";
 import { auth } from "./modules/auth";
 import { milkings } from "~modules/milking";
 import { orders } from "~modules/order";
+import { deposits } from "~modules/deposit";
+import { withdraws } from "~modules/withdraw";
 
 const app = new Elysia()
   .use(cors())
@@ -18,6 +20,8 @@ const app = new Elysia()
       .use(auth)
       .use(milkings)
       .use(orders)
+      .use(deposits)
+      .use(withdraws)
   )
   .listen(Bun.env.PORT);
 

@@ -57,27 +57,26 @@ export const orders = (app: Elysia) =>
           }
         )
         .get("/", async ({ db, user }) => {
-          console.log(user);
           const ordersList = await db.order.findMany({
             where: {
               ...(user.role === "producer"
                 ? {
-                    AND: [
+                    OR: [
+                      { type: "buy" },
                       {
-                        userId: user.id,
                         type: "sell",
+                        userId: user.id,
                       },
                     ],
-                    OR: [{ type: "buy" }],
                   }
                 : {
-                    AND: [
+                    OR: [
+                      { type: "sell" },
                       {
-                        userId: user.id,
                         type: "buy",
+                        userId: user.id,
                       },
                     ],
-                    OR: [{ type: "sell" }],
                   }),
             },
             select: {
